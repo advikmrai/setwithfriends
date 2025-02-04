@@ -126,6 +126,7 @@ describe("findSet()", () => {
       ["0001", "0002", "0010", "0020", "0100", "0200", "1111", "2222"],
     ]) {
       verifyGhost(findSet(deck, "ghostset"));
+      verifyGhost(findSet(deck, "ghostchain", []));
     }
 
     for (const deck of [
@@ -133,6 +134,20 @@ describe("findSet()", () => {
       ["1111", "1021", "0102", "2001", "2100", "1001", "0002"],
     ]) {
       expect(findSet(deck, "ghostset")).toBe(null);
+      expect(findSet(deck, "ghostchain", [])).toBe(null);
     }
+  });
+
+  it("can find ghostset-chains", () => {
+    const old = ["0001", "0002", "0000", "1201", "1002", "1100"];
+    expect(findSet(["1001", "1221", "1010", "1210"], "ghostchain", old)).toBe(
+      null
+    );
+    verifyGhost(
+      findSet(["2102", "1221", "1010", "1102", "2112"], "ghostchain", old)
+    );
+    verifyGhost(
+      findSet(["1001", "1202", "1221", "1010", "2112"], "ghostchain", old)
+    );
   });
 });
